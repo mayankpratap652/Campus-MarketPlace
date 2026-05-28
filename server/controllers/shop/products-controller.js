@@ -14,6 +14,9 @@ const getFilteredProducts = async (req, res) => {
       ...filters
     } = req.query;
 
+    const pageNum = Number(page);
+    const limitNum = Number(limit);
+
     let query = {};
 
     /* 🔎 SEARCH */
@@ -27,50 +30,36 @@ const getFilteredProducts = async (req, res) => {
         const values = Array.isArray(filters[key])
           ? filters[key]
           : filters[key].split(",").map((v) => v.trim());
-        query[key] = { $in: values.map((val) => val.trim().toLowerCase()) };
+        query[key] = {
+          $in: values.map((val) => new RegExp(`^${val.trim()}$`, "i"))
+        };
       }
     });
 
-//     console.log("Filters:", filters);
-// console.log("Query:", query);
+    console.log("Query:", JSON.stringify(query));
 
     /* 📊 SORTING */
-    let sortStage = {};
 
-    if (sortBy === "price-lowtohigh") sortStage = { effectivePrice: 1 };
-    if (sortBy === "price-hightolow") sortStage = { effectivePrice: -1 };
-    if (sortBy === "title-atoz") sortStage = { title: 1 };
-    if (sortBy === "title-ztoa") sortStage = { title: -1 };
+    /* 📦 FETCH WITH SORT + PAGINATION */
+    let sortObj = {};
+    if (sortBy === "price-lowtohigh") sortObj = { salePrice: 1, price: 1 };
+    else if (sortBy === "price-hightolow") sortObj = { salePrice: -1, price: -1 };
+    else if (sortBy === "title-atoz") sortObj = { title: 1 };
+    else if (sortBy === "title-ztoa") sortObj = { title: -1 };
+    else sortObj = { createdAt: -1 };
 
-    /* 📦 AGGREGATION */
-    const products = await Product.aggregate([
-      { $match: query },
-
-      {
-        $addFields: {
-          effectivePrice: {
-            $cond: [
-              { $gt: ["$salePrice", 0] },
-              "$salePrice",
-              "$price"
-            ]
-          }
-        }
-      },
-
-      { $sort: Object.keys(sortStage).length ? sortStage : { createdAt: -1 } },
-
-      { $skip: (page - 1) * limit },
-      { $limit: Number(limit) }
-    ]);
+    const products = await Product.find(query)
+      .sort(sortObj)
+      .skip((pageNum - 1) * limitNum)
+      .limit(limitNum);
 
     const totalProducts = await Product.countDocuments(query);
 
     res.status(200).json({
       success: true,
       total: totalProducts,
-      page: Number(page),
-      totalPages: Math.ceil(totalProducts / limit),
+      page: pageNum,
+      totalPages: Math.ceil(totalProducts / limitNum),
       data: products
     });
 
