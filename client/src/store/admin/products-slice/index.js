@@ -7,7 +7,7 @@ const initialState= {
   productList: [],
 };
 
-let client_url = "http://localhost:5000"
+let client_url = "https://campus-marketplace-0eju.onrender.com"
 
 
 // for adding the product 

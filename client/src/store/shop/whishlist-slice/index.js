@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/shop/wishlist";
+const API_URL = "https://campus-marketplace-0eju.onrender.com/api/shop/wishlist";
 
 const initialState = {
   isLoading: false,

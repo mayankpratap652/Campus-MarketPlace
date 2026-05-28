@@ -14,7 +14,7 @@ export const getAllOrdersForAdmin = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/admin/orders/get`
+        `https://campus-marketplace-0eju.onrender.com/api/admin/orders/get`
       );
 
       console.log("API RESPONSE:", response.data); // ✅ DEBUG
@@ -32,7 +32,7 @@ export const getOrderDetailsForAdmin = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/admin/orders/details/${id}`
+        `https://campus-marketplace-0eju.onrender.com/api/admin/orders/details/${id}`
       );
       return response.data;
     } catch (error) {
@@ -47,7 +47,7 @@ export const updateOrderStatus = createAsyncThunk(
   async ({ id, orderStatus }, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/admin/orders/update/${id}`,
+        `https://campus-marketplace-0eju.onrender.com/api/admin/orders/update/${id}`,
         { orderStatus }
       );
       return response.data;

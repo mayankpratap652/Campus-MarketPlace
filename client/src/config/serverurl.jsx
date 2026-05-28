@@ -1,1 +1,1 @@
-export const serverurl = `http://localhost:5000`
+export const serverurl = `https://campus-marketplace-0eju.onrender.com`

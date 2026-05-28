@@ -21,7 +21,7 @@ export const addToCart = createAsyncThunk(
   async ({ userId, productId, quantity },) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/shop/cart/add",
+        "https://campus-marketplace-0eju.onrender.com/api/shop/cart/add",
         { userId, productId, quantity }
       );
       return response?.data;
@@ -37,7 +37,7 @@ export const fetchCartItems = createAsyncThunk(
   async (userId,) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/shop/cart/get/${userId}`
+        `https://campus-marketplace-0eju.onrender.com/api/shop/cart/get/${userId}`
       );
       return response.data;
     } catch (error) {
@@ -52,7 +52,7 @@ export const deleteCartItem = createAsyncThunk(
   async ({ userId, productId }) => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/shop/cart/${userId}/${productId}`
+        `https://campus-marketplace-0eju.onrender.com/api/shop/cart/${userId}/${productId}`
       );
       return response.data;
     }
@@ -68,7 +68,7 @@ export const updateCartQuantity = createAsyncThunk(
   async ({ userId, productId, quantity }, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        "http://localhost:5000/api/shop/cart/update-cart",
+        "https://campus-marketplace-0eju.onrender.com/api/shop/cart/update-cart",
         { userId, productId, quantity }
       );
       return response.data;

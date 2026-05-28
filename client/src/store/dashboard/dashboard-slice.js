@@ -7,7 +7,7 @@ export const getDashboardStats = createAsyncThunk(
   "dashboard/getStats",
   async () => {
     const res = await axios.get(
-      "http://localhost:5000/api/admin/dashboard/stats"
+      "https://campus-marketplace-0eju.onrender.com/api/admin/dashboard/stats"
     );
     return res.data.data;
   }

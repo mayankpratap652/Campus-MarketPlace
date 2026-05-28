@@ -27,7 +27,7 @@ function ProductImageUpload({ imageFile,
             formData.append("my_file", imageFile);
             console.log("Uploading file...", imageFile);
 
-            const response = await axios.post("http://localhost:5000/api/admin/products/upload-image", formData);
+            const response = await axios.post("https://campus-marketplace-0eju.onrender.com/api/admin/products/upload-image", formData);
             console.log("Upload response:", response);
 
             if (response?.data?.success === true) {
