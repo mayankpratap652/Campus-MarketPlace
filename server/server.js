@@ -4,6 +4,7 @@ const cookiparser = require('cookie-parser')
 const cors = require('cors')
 const http = require('http')              // ✅ ADD
 const { Server } = require('socket.io')   // ✅ ADD
+import  path from 'path';
 
 const { connectDB } = require('./utils/database')
 const authRouter = require('./routes/auth/auth-routes')
@@ -21,6 +22,13 @@ let app = express()
 
 // env
 dotenv.config()
+
+//for deploy 
+const _dirname = path.resolve();
+app.use(express.static(path.join(_dirname, '/client/dist')));
+app.get('*', (_, res) => {
+    res.sendFile(path.resolve(_dirname, 'client' , 'dist', 'index.html'));
+});
 
 // DB
 connectDB()
