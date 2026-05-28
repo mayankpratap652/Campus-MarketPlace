@@ -30,7 +30,7 @@ connectDB()
 // middleware
 app.use(
     cors({
-        origin: 'http://localhost:5173',
+        origin: 'https://campus-marketplace-0eju.onrender.com',
         credentials: true,
         methods: ['GET', 'PUT', 'POST', 'DELETE'],
         allowedHeaders: [
@@ -76,7 +76,7 @@ const server = http.createServer(app)
 // socket setup
 const io = new Server(server, {
     cors: {
-        origin: 'http://localhost:5173',
+        origin: 'https://campus-marketplace-0eju.onrender.com',
         credentials: true
     }
 })
